@@ -6,6 +6,10 @@
 
 Obfuscate is a simple library which provides useful events, utilities, and common code for mod developers. Originally created for compatibility in MrCrayfish's mod, this library is now targeted for all mod developers alike. **This mod does not have any content by default.**
 
+### Be careful
+
+This unofficial fork updates Obfuscate to 1.18.X. If this fork has any problem, don't report this issues to the official Obfuscate GitHub.
+
 ### Library Features:
 
 **Manipulate the player's model safely:**
