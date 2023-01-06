@@ -1,33 +1,29 @@
 buildscript {
     repositories {
-        maven { url = 'https://files.minecraftforge.net/maven' }
+        maven { url = 'https://maven.minecraftforge.net' }
         maven { url = 'https://repo.spongepowered.org/maven' }
         mavenCentral()
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
+        classpath 'org.spongepowered:mixingradle:0.7.+'
     }
 }
+
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'maven-publish'
-// Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
-// apply plugin: 'eclipse'
 
-version = '0.6.3-1.17.1'
-group = 'com.mrcrayfish' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+
+version = '0.7.1-1.18.2'
+group = 'com.mrcrayfish'
 archivesBaseName = 'obfuscate'
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(16)
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
-mixin {
-    add sourceSets.main, "obfuscate.refmap.json"
-}
-
+println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
-    mappings channel: 'official', version: '1.17.1'
-
+    mappings channel: 'official', version: '1.18.2'
     runs {
         client {
             workingDirectory project.file('run')
@@ -67,35 +63,31 @@ minecraft {
     }
 }
 
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+repositories {
+}
+
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.17.1-37.0.59'
+    minecraft 'net.minecraftforge:forge:1.18.2-40.2.0'
     annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
 }
 
-// Example for how to get properties into the manifest for reading by the runtime..
 jar {
     manifest {
         attributes([
-            "Specification-Title": "Obfuscate",
-            "Specification-Vendor": "MrCrayfish",
-            "Specification-Version": "1", // We are version 1 of ourselves
-            "Implementation-Title": project.name,
-            "Implementation-Version": "${version}",
-            "Implementation-Vendor" :"MrCrayfish",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-            "MixinConfigs" : "obfuscate.mixins.json"
+                "Specification-Title": "Obfuscate",
+                "Specification-Vendor": "MrCrayfish",
+                "Specification-Version": "1",
+                "Implementation-Title": project.name,
+                "Implementation-Version": "$version",
+                "Implementation-Vendor" :"MrCrayfish",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                "MixinConfigs" : "obfuscate.mixins.json"
         ])
     }
 }
 
-//Loads the keystore from remote location
-Properties keyStoreProperties = new Properties()
-File file = new File("C:\\dev\\keystore.properties")
-if(file.exists()) {
-    InputStream ins = new FileInputStream(file)
-    keyStoreProperties.load(ins)
-    ins.close()
-}
 
 jar.finalizedBy('reobfJar')
 
@@ -110,4 +102,8 @@ publishing {
             url "file://${project.projectDir}/mcmodsrepo"
         }
     }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
 }

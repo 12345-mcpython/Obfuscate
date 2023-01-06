@@ -3,7 +3,7 @@ package com.mrcrayfish.obfuscate.network;
 import com.mrcrayfish.obfuscate.Obfuscate;
 import com.mrcrayfish.obfuscate.common.data.SyncedPlayerData;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraftforge.fmllegacy.network.NetworkEvent;
+import net.minecraftforge.network.NetworkEvent;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
@@ -16,10 +16,10 @@ class HandshakeHandler
 {
     private static final Marker OBFUSCATE_HANDSHAKE = MarkerManager.getMarker("OBFUSCATE_HANDSHAKE");
 
-    static void handleAcknowledge(HandshakeMessages.C2SAcknowledge message, Supplier<NetworkEvent.Context> c)
+    static void handleAcknowledge(HandshakeMessages.C2SAcknowledge msg, final Supplier<NetworkEvent.Context> contextSupplier)
     {
         Obfuscate.LOGGER.debug(OBFUSCATE_HANDSHAKE, "Received acknowledgement from client");
-        c.get().setPacketHandled(true);
+        contextSupplier.get().setPacketHandled(true);
     }
 
     static void handleSyncedPlayerData(HandshakeMessages.S2CSyncedPlayerData message, Supplier<NetworkEvent.Context> c)

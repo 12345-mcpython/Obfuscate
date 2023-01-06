@@ -4,9 +4,8 @@ import com.mrcrayfish.obfuscate.Reference;
 import com.mrcrayfish.obfuscate.network.message.IMessage;
 import com.mrcrayfish.obfuscate.network.message.MessageSyncPlayerData;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.fmllegacy.network.FMLHandshakeHandler;
-import net.minecraftforge.fmllegacy.network.NetworkRegistry;
-import net.minecraftforge.fmllegacy.network.simple.SimpleChannel;
+import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.simple.SimpleChannel;
 
 /**
  * Author: MrCrayfish
@@ -34,14 +33,14 @@ public class PacketHandler
             .loginIndex(HandshakeMessages.LoginIndexedMessage::getLoginIndex, HandshakeMessages.LoginIndexedMessage::setLoginIndex)
             .decoder(HandshakeMessages.C2SAcknowledge::decode)
             .encoder(HandshakeMessages.C2SAcknowledge::encode)
-            .consumer(FMLHandshakeHandler.indexFirst((handler, msg, s) -> HandshakeHandler.handleAcknowledge(msg, s)))
+            .consumer(net.minecraftforge.network.HandshakeHandler.indexFirst((handler, msg, s) -> HandshakeHandler.handleAcknowledge(msg, s)))
             .add();
 
         HANDSHAKE_CHANNEL.messageBuilder(HandshakeMessages.S2CSyncedPlayerData.class, 1)
             .loginIndex(HandshakeMessages.LoginIndexedMessage::getLoginIndex, HandshakeMessages.LoginIndexedMessage::setLoginIndex)
             .decoder(HandshakeMessages.S2CSyncedPlayerData::decode)
             .encoder(HandshakeMessages.S2CSyncedPlayerData::encode)
-            .consumer(FMLHandshakeHandler.biConsumerFor((handler, msg, supplier) -> HandshakeHandler.handleSyncedPlayerData(msg, supplier)))
+            .consumer(net.minecraftforge.network.HandshakeHandler.biConsumerFor((handler, msg, supplier) -> HandshakeHandler.handleSyncedPlayerData(msg, supplier)))
             .markAsLoginPacket()
             .add();
 
