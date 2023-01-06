@@ -23,13 +23,11 @@ adding custom animations when swinging a sword and so much more!
 
 ```java
 @SubscribeEvent
-public void setupPlayerRotations(PlayerModelEvent.SetupAngles.Post event)
-        {
-        if(condition)
-        {
-        event.getModelPlayer().getModelHead().rotateAngleX=(float)Math.toRadians(90f);
-        }
-        }
+public void setupPlayerRotations(PlayerModelEvent.SetupAngles.Post event) {
+    if(condition) {
+        event.getModelPlayer().getModelHead().rotateAngleX = (float) Math.toRadians(90f);
+    }
+}
 ```
 
 **Full control over item rendering:**
@@ -40,19 +38,16 @@ rendering the held item on the player model is called, it's actually coming from
 model.
 
 ```java
-/* An example of controlling held item on player model. See RenderItemEvent for all events.
+/* An example of controlling held item on player model. See RenderItemEvent for all events. 
  * You can implement just RenderItemEvent to control all cases. */
 @SubscribeEvent
-public void onRenderHeldItem(RenderItemEvent.Held.Pre event)
-        {
-        if(condition)
-        {
+public void onRenderHeldItem(RenderItemEvent.Held.Pre event) {
+    if(condition) {
         event.setCancelled(true);
         //do custom rendering here
-        }
-        }
+    }
+}
 ```
-
 **A completely new data syncing system for players:**
 
 It's not good practice to add data parameters to entities other than your own; this often results key mismatch due to
@@ -68,35 +63,29 @@ public static final SyncedDataKey<Boolean> AIMING=SyncedDataKey.builder(Serializ
         .resetOnDeath()
         .build();
 
-public static void somewhereInCommonInitialization(){
+public static void somewhereInCommonInitialization() {
         SyncedPlayerData.instance().registerKey(AIMING);
-        }
+}
 
 //Setting value
-        SyncedPlayerData.instance().set(player,ModSyncedDataKeys.AIMING,true);
+SyncedPlayerData.instance().set(player,ModSyncedDataKeys.AIMING,true);
 
 //Getting value
-        SyncedPlayerData.instance().get(player,ModSyncedDataKeys.AIMING)
+SyncedPlayerData.instance().get(player,ModSyncedDataKeys.AIMING)
 ```
 
 ### Start Developing with this Library:
 
-You can start using this library simply by adding this code to your **build.gradle** file. You'll want to replace the
-curseforge_file_id with a version of Obfuscate targeted towards your Minecraft version.
+You can start using this library simply by adding this code to your build.gradle file. You'll want to replace the `version` with a version of Obfuscate.
 
 ```gradle
-//Minecraft 1.16.1: 3043369
-//Minecraft 1.15.2: 3043368
-//Minecraft 1.14.4: 2912286
-//Minecraft 1.12.2: 2912288
-
 repositories {
     maven {
-        url = "https://www.cursemaven.com"
+        url = "https://laosun-maven.obs.cn-north-4.myhuaweicloud.com"
     }
 }
 
 dependencies {
-    compile fg.deobf('curse.maven:obfuscate-289380:<curseforge_file_id>')
+    compile fg.deobf('com.mrcrayfish.obfuscate:obfuscate:<version>')
 }
 ```
