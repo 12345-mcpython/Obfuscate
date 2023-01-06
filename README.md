@@ -79,6 +79,7 @@ SyncedPlayerData.instance().get(player,ModSyncedDataKeys.AIMING)
 You can start using this library simply by adding this code to your build.gradle file. You'll want to replace the `version` with a version of Obfuscate.
 
 ```gradle
+// local version 0.7.1-1.18.2
 repositories {
     maven {
         url = "https://laosun-maven.obs.cn-north-4.myhuaweicloud.com"
